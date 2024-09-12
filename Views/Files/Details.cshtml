@@ -1,0 +1,45 @@
+﻿@model FileMetadata
+
+@{
+    ViewData["Title"] = @Model.FileName;
+}
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title text-center">@Model.FileName</h3>
+    </div>
+    <div class="panel-body">
+        <h5 class="card-subtitle text-muted">Uploaded Date: @Model.UploadDate</h5>
+        <iframe src="@Url.Action("GetFile", "Files", new { id = Model.Id })" width="100%" height="800px"></iframe>
+    </div>
+
+    <!--Pdf OCR Trial-->
+    <form asp-action="PerformOcr" asp-controller="Files" method="get">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <div>
+            <input type="submit" value="Perform OCR" style="width:150px;height:27px" />
+        </div>
+    </form>
+</div>
+
+@if (ViewBag.OcrResult != null)
+{
+    @* <div class="mt-4">
+        <fieldset>
+            <legend>OCR Results</legend>
+            <div class="form-group">
+                <label>Mean Confidence:</label>
+                <label class="form-control">@ViewBag.MeanConfidence</label>
+            </div>
+            <div class="form-group">
+                <label>Result:</label>
+                <textarea class="form-control" rows="10" readonly>@ViewBag.Result</textarea>
+            </div>
+        </fieldset>
+    </div> *@
+
+    <div class="form-group">
+        <label>Result:</label>
+        <textarea class="form-control" rows="10" readonly>@ViewBag.OcrResult</textarea>
+    </div>
+}
